@@ -51,8 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
           margin: const EdgeInsets.only(top: 100),
           child: Image.asset(
             'assets/images/wzq.png',
-            width: 180,
-            height: 180,
+            width: 130,
+            height: 130,
           ),
         ),
         const Text(

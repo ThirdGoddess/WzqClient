@@ -15,8 +15,8 @@ class TwoPageRoute extends StatelessWidget {
           margin: const EdgeInsets.only(top: 100),
           child: Image.asset(
             'assets/images/wzq.png',
-            width: 180,
-            height: 180,
+            width: 130,
+            height: 130,
           ),
         ),
         const Text(
@@ -24,12 +24,31 @@ class TwoPageRoute extends StatelessWidget {
           style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
         ),
         Container(
-            width: 300,
-            height: 50,
+            width: 260,
+            height: 40,
             margin: const EdgeInsets.only(top: 50),
-            child: TextField(
+            child: const TextField(
               decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black)),
+                labelStyle: TextStyle(color: Colors.black),
                 labelText: '请输入账号',
+                contentPadding: EdgeInsets.all(18),
+                border: OutlineInputBorder(),
+              ),
+              style: TextStyle(fontSize: 18, color: Colors.black),
+            )),
+        Container(
+            width: 260,
+            height: 40,
+            margin: const EdgeInsets.only(top: 20),
+            child: const TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black)),
+                labelStyle: TextStyle(color: Colors.black),
+                labelText: '请输入密码',
                 contentPadding: EdgeInsets.all(18),
                 border: OutlineInputBorder(),
               ),
@@ -40,13 +59,13 @@ class TwoPageRoute extends StatelessWidget {
           child: TextButton(
             onPressed: () {},
             style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(const Size(200, 50)),
+                minimumSize: MaterialStateProperty.all(const Size(260, 50)),
                 side: MaterialStateProperty.all(const BorderSide(
                     width: 2, color: Color.fromARGB(255, 25, 25, 25))),
                 backgroundColor: const MaterialStatePropertyAll(
                     Color.fromARGB(255, 255, 221, 80))),
             child: const Text(
-              "注册账号",
+              "登录",
               style: TextStyle(
                   color: Color.fromARGB(255, 15, 15, 15),
                   fontSize: 18,
