@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:apps/uitls/sp.dart';
+import 'package:apps/view/TwoPageRoute.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -38,10 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
-  void _setValue() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
         Container(
           margin: const EdgeInsets.only(top: 50),
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const TwoPageRoute();
+              }));
+            },
             style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(const Size(200, 50)),
                 side: MaterialStateProperty.all(const BorderSide(
