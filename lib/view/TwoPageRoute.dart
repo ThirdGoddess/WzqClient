@@ -12,7 +12,7 @@ class TwoPageRoute extends StatelessWidget {
       body: Center(
           child: Column(children: [
         Container(
-          margin: const EdgeInsets.only(top: 100),
+          margin: const EdgeInsets.only(top: 80),
           child: Image.asset(
             'assets/images/wzq.png',
             width: 130,
