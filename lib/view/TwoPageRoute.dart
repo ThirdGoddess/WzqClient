@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TwoPageRoute extends StatelessWidget {
   const TwoPageRoute({
@@ -27,8 +29,12 @@ class TwoPageRoute extends StatelessWidget {
             width: 260,
             height: 40,
             margin: const EdgeInsets.only(top: 50),
-            child: const TextField(
-              decoration: InputDecoration(
+            child: TextField(
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                LengthLimitingTextInputFormatter(10)
+              ],
+              decoration: const InputDecoration(
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black)),
                 labelStyle: TextStyle(color: Colors.black),
@@ -36,15 +42,19 @@ class TwoPageRoute extends StatelessWidget {
                 contentPadding: EdgeInsets.all(18),
                 border: OutlineInputBorder(),
               ),
-              style: TextStyle(fontSize: 18, color: Colors.black),
+              style: const TextStyle(fontSize: 18, color: Colors.black),
             )),
         Container(
             width: 260,
             height: 40,
             margin: const EdgeInsets.only(top: 20),
-            child: const TextField(
-              obscureText: true,
-              decoration: InputDecoration(
+            child: TextField(
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z,.@#!\$%^&]")),
+                LengthLimitingTextInputFormatter(18)
+              ],
+              obscureText: false,
+              decoration: const InputDecoration(
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black)),
                 labelStyle: TextStyle(color: Colors.black),
@@ -52,14 +62,14 @@ class TwoPageRoute extends StatelessWidget {
                 contentPadding: EdgeInsets.all(18),
                 border: OutlineInputBorder(),
               ),
-              style: TextStyle(fontSize: 18, color: Colors.black),
+              style: const TextStyle(fontSize: 18, color: Colors.black),
             )),
         Container(
           margin: const EdgeInsets.only(top: 20),
           child: TextButton(
             onPressed: () {},
             style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(const Size(260, 50)),
+                minimumSize: MaterialStateProperty.all(const Size(265, 50)),
                 side: MaterialStateProperty.all(const BorderSide(
                     width: 2, color: Color.fromARGB(255, 25, 25, 25))),
                 backgroundColor: const MaterialStatePropertyAll(
