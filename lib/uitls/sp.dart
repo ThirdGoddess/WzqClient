@@ -7,6 +7,10 @@ class Sp {
 
   static final Sp _instance = Sp._internal();
 
+  static Sp getInstance() {
+    return _instance;
+  }
+
   static const String _tag_ = "sp_";
   static const String _userToken = "${_tag_}user_token";
   static const String _userInfo = "${_tag_}user_info";
