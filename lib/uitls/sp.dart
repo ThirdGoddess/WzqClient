@@ -9,22 +9,25 @@ class Sp {
 
   static const String _tag_ = "sp_";
   static const String _userToken = "${_tag_}user_token";
-
-  static getInstance() {
-    return _instance;
-  }
-
-  factory Sp() => getInstance();
-
+  static const String _userInfo = "${_tag_}user_info";
   //============================================================================
 
   //设置用户Token
-  setUserToken(String token) {
-    _setString(_userToken, token);
+  setUserToken(String token) async {
+    await _setString(_userToken, token);
   }
 
   Future getUserToken() {
     return _getString(_userToken);
+  }
+
+  //设置用户信息
+  setUserInfo(String info) async {
+    await _setString(_userInfo, info);
+  }
+
+  getUserInfo() {
+    return _getString(_userInfo);
   }
 
   //============================================================================
@@ -34,8 +37,8 @@ class Sp {
     return sharedPreferences.getString(key);
   }
 
-  _setString(String key, String value) async {
+  Future _setString(String key, String value) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString(key, value);
+    return sharedPreferences.setString(key, value);
   }
 }
