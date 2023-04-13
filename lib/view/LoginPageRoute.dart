@@ -1,9 +1,11 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
+import 'package:apps/uitls/CustomRoute.dart';
 import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
 import 'package:apps/uitls/LoadingUitl.dart';
 import 'package:apps/uitls/Sp.dart';
+import 'package:apps/view/HomePageRoute.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,6 +36,9 @@ class LoginPageRoute extends StatelessWidget {
             Sp.getInstance().setUserToken(data["token"].toString()); //sp存储token
             Sp.getInstance().setUserInfo(data.toString()); //sp存储用户信息
             BotToast.showText(text: "登录成功");
+
+            //跳转首页
+            Navigator.push(context, CustomRoute(const HomePageRoute(), 0));
           }
         } else {
           BotToast.showText(text: "密码不可为空");
