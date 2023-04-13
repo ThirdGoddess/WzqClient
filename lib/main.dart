@@ -4,7 +4,7 @@ import 'package:apps/uitls/CustomRoute.dart';
 import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
 import 'package:apps/uitls/Sp.dart';
-import 'package:apps/view/TwoPageRoute.dart';
+import 'package:apps/view/LoginPageRoute.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
         if (null != data) {
           //保存用户信息
           Sp.getInstance().setUserInfo(data.toString());
-          Navigator.push(context, CustomRoute(const TwoPageRoute(), 0));
+          Navigator.push(context, CustomRoute(const LoginPageRoute(), 0));
         }
       }
     }
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: TextButton(
             onPressed: () {
               //跳转登录
-              Navigator.push(context, CustomRoute(const TwoPageRoute(), 0));
+              Navigator.push(context, CustomRoute(const LoginPageRoute(), 0));
             },
             style: ButtonStyle(
                 side: MaterialStateProperty.all(const BorderSide(

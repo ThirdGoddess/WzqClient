@@ -8,8 +8,8 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TwoPageRoute extends StatelessWidget {
-  const TwoPageRoute({
+class LoginPageRoute extends StatelessWidget {
+  const LoginPageRoute({
     Key? key,
   }) : super(key: key);
 
