@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
+import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
+import 'package:apps/uitls/LoadingUitl.dart';
 import 'package:apps/uitls/Sp.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -17,20 +19,20 @@ class TwoPageRoute extends StatelessWidget {
     var passwordInput = TextEditingController();
 
     //调用登录
-    loginApp() {
+    loginApp() async {
       if (accountInput.text.isNotEmpty) {
         if (passwordInput.text.isNotEmpty) {
           dynamic param = {
             "account": accountInput.text,
             "password": passwordInput.text
           };
-          dynamic data = DioUitl().postTo200(HttpPath.loginPath, param);
-
+          LoadingUitl.showLoading();
+          dynamic data = await DioUitl().postTo200(HttpPath.loginPath, param);
           if (null != data) {
-            //保存用户信息
-
-            Sp().setUserToken(data["token"].toString());
-            Sp().setUserInfo(data.toString());
+            DioHelper.getInstance().setHeader(DioHelper.HeaderUserToken,
+                data["token"].toString()); //设置dio header参数token
+            Sp.getInstance().setUserToken(data["token"].toString()); //sp存储token
+            Sp.getInstance().setUserInfo(data.toString()); //sp存储用户信息
             BotToast.showText(text: "登录成功");
           }
         } else {

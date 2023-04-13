@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:apps/uitls/CustomRoute.dart';
+import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
-import 'package:apps/uitls/Init.dart';
 import 'package:apps/uitls/Sp.dart';
 import 'package:apps/view/TwoPageRoute.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final botToastBuilder = BotToastInit(); //1. call BotToastInit
+
+    //初始化DioHelper
+    DioHelper.getInstance().init();
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -47,22 +50,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     //使用Token登录
     loginByToken(dynamic token) async {
-      DioUitl.UserToken = token.toString();
+      DioHelper.getInstance().setHeader(
+          DioHelper.HeaderUserToken, token.toString()); //设置DIO Header
       if (token.isNotEmpty) {
         dynamic data = await DioUitl().postTo200(HttpPath.loginByTokenPath);
         if (null != data) {
           //保存用户信息
-          Sp().setUserInfo(data.toString());
+          Sp.getInstance().setUserInfo(data.toString());
           Navigator.push(context, CustomRoute(const TwoPageRoute(), 0));
-        } else {
-          //清除用户Token
-          Sp().setUserToken("");
-          Sp().setUserInfo("");
         }
       }
     }
 
-    Future future = Sp().getUserToken();
+    Future future = Sp.getInstance().getUserToken();
     future.then((value) => loginByToken(value));
 
     return Scaffold(
