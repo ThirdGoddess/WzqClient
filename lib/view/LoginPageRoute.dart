@@ -49,7 +49,7 @@ class LoginPageRoute extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 221, 80),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
           child: Column(children: [
         Container(
@@ -116,7 +116,7 @@ class LoginPageRoute extends StatelessWidget {
                 side: MaterialStateProperty.all(const BorderSide(
                     width: 2, color: Color.fromARGB(255, 25, 25, 25))),
                 backgroundColor: const MaterialStatePropertyAll(
-                    Color.fromARGB(255, 255, 221, 80))),
+                    Color.fromARGB(255, 255, 255, 255))),
             child: const Text(
               "登录",
               style: TextStyle(

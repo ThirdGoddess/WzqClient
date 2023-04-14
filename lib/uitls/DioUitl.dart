@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:apps/uitls/DioHelper.dart';
+import 'package:apps/uitls/Sp.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 
@@ -38,6 +39,15 @@ class DioUitl {
         case 600:
           BotToast.showText(text: data["msg"]);
           break;
+        case 602:
+          //更新本地存储的Token
+          Sp.getInstance().setUserToken("");
+
+          //删除DIO Header Token
+          DioHelper.getInstance().removHeader("UserToken");
+
+          BotToast.showText(text: "账号在其它设备登录，请重新登录");
+          break;
       }
       return r;
     } else if (400 == r.statusCode) {
@@ -45,7 +55,7 @@ class DioUitl {
     } else if (500 == r.statusCode) {
       BotToast.showText(text: "服务器错误");
     }
-    return null;
+    return r;
   }
 }
 

@@ -11,7 +11,7 @@ class HomePageRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 221, 80),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
     );
   }
 }

@@ -14,7 +14,7 @@ class LoadingUitl {
         duration: const Duration(
           seconds: 12,
         ),
-        backgroundColor: const Color.fromARGB(147, 255, 210, 75));
+        backgroundColor: Color.fromARGB(111, 0, 0, 0));
   }
 
   //关闭Loading

@@ -47,18 +47,31 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+///启动页
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //使用Token登录
     loginByToken(dynamic token) async {
-      DioHelper.getInstance().setHeader(
-          DioHelper.HeaderUserToken, token.toString()); //设置DIO Header
       if (token.isNotEmpty) {
+        //设置DIO Header Token
+        DioHelper.getInstance()
+            .setHeader(DioHelper.HeaderUserToken, token.toString());
+
+        //发起Token登录请求
         dynamic data = await DioUitl().postTo200(HttpPath.loginByTokenPath);
         if (null != data) {
+          //更新本地存储的Token
+          Sp.getInstance().setUserToken(data["token"]);
+
+          //设置DIO Header Token
+          DioHelper.getInstance()
+              .setHeader(DioHelper.HeaderUserToken, data["token"]);
+
           //保存用户信息
           Sp.getInstance().setUserInfo(data.toString());
+
+          //跳转首页
           Navigator.push(context, CustomRoute(const HomePageRoute(), 0));
         }
       }
@@ -68,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
     future.then((value) => loginByToken(value));
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 221, 80),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
           child: Column(children: [
         Container(
@@ -96,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 side: MaterialStateProperty.all(const BorderSide(
                     width: 2, color: Color.fromARGB(255, 25, 25, 25))),
                 backgroundColor: const MaterialStatePropertyAll(
-                    Color.fromARGB(255, 255, 221, 80))),
+                    Color.fromARGB(255, 255, 255, 255))),
             child: const Text(
               "登录账号",
               style: TextStyle(
@@ -116,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 side: MaterialStateProperty.all(const BorderSide(
                     width: 2, color: Color.fromARGB(255, 25, 25, 25))),
                 backgroundColor: const MaterialStatePropertyAll(
-                    Color.fromARGB(255, 255, 221, 80))),
+                    Color.fromARGB(255, 255, 255, 255))),
             child: const Text(
               "注册账号",
               style: TextStyle(
