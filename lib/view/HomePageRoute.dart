@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:apps/uitls/PlatformUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ///首页
 class HomePageRoute extends StatelessWidget {
@@ -17,7 +18,20 @@ class HomePageRoute extends StatelessWidget {
     final double screenWidth = mediaQueryData.size.width; //宽度
     final double screenHeight = mediaQueryData.size.height; //高度
     final double ratio = screenHeight / screenWidth; //比例，大于1.33按竖屏适配
+    final bool isPhone = PlatformUtils.isAndroid || PlatformUtils.isIOS;
 
+    //获取状态栏高度
+    final double statusBasrHeight =
+        MediaQueryData.fromWindow(window).padding.top;
+
+    if (PlatformUtils.isAndroid) {
+      SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, //设置为透明
+      );
+      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    }
+
+    //是否竖屏
     bool isDirection() {
       return ratio > 1.33;
     }
@@ -26,31 +40,37 @@ class HomePageRoute extends StatelessWidget {
     void quickStart() {}
 
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         body: Column(children: [
-          //头部
-          Offstage(
-            offstage: false,
+          //状态栏
+          SizedBox(
+            width: double.infinity,
+            height: statusBasrHeight,
             child: Container(
-              height: 85,
-              width: double.infinity,
-              child: Row(
-                children: [
-                  Container(
-                      width: 160,
-                      height: 45,
-                      margin: EdgeInsets.only(left: 25),
-                      child: TextButton(
-                          style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
-                                  Color.fromARGB(255, 240, 187, 29))),
-                          onPressed: quickStart,
-                          child: const Text(
-                            "快速开始",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          )))
-                ],
-              ),
+              color: Colors.black,
+            ),
+          ),
+          //头部
+          Container(
+            color: Colors.black,
+            height: 85,
+            width: double.infinity,
+            child: Row(
+              children: [
+                Container(
+                    width: 160,
+                    height: 45,
+                    margin: EdgeInsets.only(left: 20),
+                    child: TextButton(
+                        style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(255, 240, 187, 29))),
+                        onPressed: quickStart,
+                        child: const Text(
+                          "快速开始",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        )))
+              ],
             ),
           ),
           //大厅
