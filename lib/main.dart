@@ -3,6 +3,7 @@
 import 'package:apps/uitls/CustomRoute.dart';
 import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
+import 'package:apps/uitls/LoadingUitl.dart';
 import 'package:apps/uitls/Sp.dart';
 import 'package:apps/view/HomePageRoute.dart';
 import 'package:apps/view/LoginPageRoute.dart';
@@ -54,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //使用Token登录
     loginByToken(dynamic token) async {
       if (token.isNotEmpty) {
+        LoadingUitl.showLoading();
         //设置DIO Header Token
         DioHelper.getInstance()
             .setHeader(DioHelper.HeaderUserToken, token.toString());

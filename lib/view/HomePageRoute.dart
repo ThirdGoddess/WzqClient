@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:apps/uitls/PlatformUtils.dart';
+import 'package:apps/view/RoomItemWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,11 +19,11 @@ class HomePageRoute extends StatelessWidget {
     final double screenWidth = mediaQueryData.size.width; //宽度
     final double screenHeight = mediaQueryData.size.height; //高度
     final double ratio = screenHeight / screenWidth; //比例，大于1.33按竖屏适配
-    final bool isPhone = PlatformUtils.isAndroid || PlatformUtils.isIOS;
+    final bool isPhone =
+        PlatformUtils.isAndroid || PlatformUtils.isIOS; //判断是否是手机
 
     //获取状态栏高度
-    final double statusBasrHeight =
-        MediaQueryData.fromWindow(window).padding.top;
+    final double statusBasrHeight = MediaQueryData.fromView(window).padding.top;
 
     if (PlatformUtils.isAndroid) {
       SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
@@ -52,42 +53,220 @@ class HomePageRoute extends StatelessWidget {
           ),
           //头部
           Container(
-            color: Colors.black,
-            height: 85,
+            height: 55,
+            color: Color.fromARGB(255, 234, 226, 198),
             width: double.infinity,
             child: Row(
               children: [
+                Offstage(
+                  offstage: isDirection(),
+                  child: Container(
+                      width: 160,
+                      height: double.infinity,
+                      child: TextButton(
+                          style: ButtonStyle(
+                              backgroundColor: const MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 240, 187, 29)),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0)))),
+                          onPressed: quickStart,
+                          child: const Text(
+                            "快速开始",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ))),
+                ),
+                Flexible(
+                    child: Container(
+                  height: 45,
+                )),
                 Container(
-                    width: 160,
                     height: 45,
-                    margin: EdgeInsets.only(left: 20),
-                    child: TextButton(
-                        style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                Color.fromARGB(255, 240, 187, 29))),
-                        onPressed: quickStart,
-                        child: const Text(
-                          "快速开始",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        )))
+                    margin: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          child: const Text(
+                            "你好啦啦啦\n积分：60000",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Image.asset(
+                          'assets/images/wzq.png',
+                          width: 45,
+                          height: 45,
+                        )
+                      ],
+                    )),
               ],
             ),
           ),
+
+          // Container(
+          //   width: double.infinity,
+          //   height: 2,
+          //   color: Color.fromARGB(255, 241, 241, 241),
+          // ),
+
           //大厅
           Flexible(
             child: Container(
-              width: double.infinity,
-              color: Color.fromARGB(255, 254, 254, 254),
-            ),
+                height: double.infinity,
+                width: double.infinity,
+                child: const SingleChildScrollView(
+                  padding: EdgeInsets.all(20),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.end, //副轴对其方式
+                    children: [
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                      RoomItemWidget(
+                          rid: 12,
+                          type: 12,
+                          userAId: 123,
+                          userBId: 123,
+                          observerCount: 100,
+                          userANick: "Whuo",
+                          userBNick: "BBBBBB"),
+                    ],
+                  ),
+                )),
           ),
           //脚部
           Offstage(
             offstage: !isDirection(),
             child: Container(
-              color: Color.fromARGB(255, 196, 7, 7),
-              height: 65,
-              width: double.infinity,
-            ),
+                width: double.infinity,
+                height: 60,
+                child: TextButton(
+                    style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                            Color.fromARGB(255, 240, 187, 29))),
+                    onPressed: quickStart,
+                    child: const Text(
+                      "快速开始",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ))),
           )
         ]));
   }

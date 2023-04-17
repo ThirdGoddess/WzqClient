@@ -41,7 +41,7 @@ class DioHelper {
 
   //初始化
   void init() {
-    _dio.options.baseUrl = 'http://192.168.43.163:8081';
+    _dio.options.baseUrl = 'http://192.168.1.52:8081';
     _dio.options.connectTimeout = const Duration(seconds: 5);
     _dio.options.receiveTimeout = const Duration(seconds: 3);
     _dio.interceptors.add(InterceptorsWrapper(
