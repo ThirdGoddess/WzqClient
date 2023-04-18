@@ -24,6 +24,7 @@ class LoginPageRoute extends StatelessWidget {
     loginApp() async {
       if (accountInput.text.isNotEmpty) {
         if (passwordInput.text.isNotEmpty) {
+          SystemChannels.textInput.invokeMethod('TextInput.hide');
           dynamic param = {
             "account": accountInput.text,
             "password": passwordInput.text
