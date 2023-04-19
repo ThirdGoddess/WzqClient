@@ -11,6 +11,10 @@ class DioHelper {
 
   static final DioHelper _instance = DioHelper._internal();
 
+  static DioHelper getInstance() {
+    return _instance;
+  }
+
   //DIO
   static final _dio = Dio(BaseOptions(validateStatus: (statusCode) {
     if (200 == statusCode) {
@@ -61,9 +65,5 @@ class DioHelper {
         return handler.next(e);
       },
     ));
-  }
-
-  static DioHelper getInstance() {
-    return _instance;
   }
 }

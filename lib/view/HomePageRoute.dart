@@ -2,6 +2,8 @@
 
 import 'dart:ui';
 
+import 'package:apps/uitls/DioHelper.dart';
+import 'package:apps/uitls/DioUitl.dart';
 import 'package:apps/uitls/PlatformUtils.dart';
 import 'package:apps/view/RoomItemWidget.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +39,20 @@ class HomePageRoute extends StatelessWidget {
       return ratio > 1.33;
     }
 
+    final List<dynamic> roomList = [];
+
     //快速开始
-    void quickStart() {}
+    void quickStart() {
+      DioUitl().getTo200(HttpPath.loginPath);
+
+      // roomList.add()
+    }
+
+    void getC() {
+      roomList.add(1);
+    }
+
+    getC();
 
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -54,7 +68,7 @@ class HomePageRoute extends StatelessWidget {
           //头部
           Container(
             height: 55,
-            color: Color.fromARGB(255, 234, 226, 198),
+            color: const Color.fromARGB(255, 234, 226, 198),
             width: double.infinity,
             child: Row(
               children: [
@@ -103,65 +117,27 @@ class HomePageRoute extends StatelessWidget {
             ),
           ),
 
-          // Container(
-          //   width: double.infinity,
-          //   height: 2,
-          //   color: Color.fromARGB(255, 241, 241, 241),
-          // ),
-
           //大厅
           Flexible(
             child: Container(
                 color: const Color.fromARGB(255, 248, 242, 219),
                 height: double.infinity,
                 width: double.infinity,
-                child: const SingleChildScrollView(
+                child: SingleChildScrollView(
                   padding: EdgeInsets.all(20),
                   child: Wrap(
                     alignment: WrapAlignment.center,
                     crossAxisAlignment: WrapCrossAlignment.end, //副轴对其方式
-                    children: [
-                      RoomItemWidget(
+                    children: List.generate(roomList.length, (index) {
+                      return RoomItemWidget(
                           rid: 1,
                           type: 0,
                           userAId: 10080,
                           userBId: 10081,
                           observerCount: 156,
                           userANick: "Whuo吕布1",
-                          userBNick: "哈哈哈哈哈哈"),
-                      RoomItemWidget(
-                          rid: 2,
-                          type: 2,
-                          userAId: 10080,
-                          userBId: 10081,
-                          observerCount: 156,
-                          userANick: "Whuo吕布",
-                          userBNick: "BBBBB糖糖"),
-                      RoomItemWidget(
-                          rid: 3,
-                          type: 0,
-                          userAId: 10080,
-                          userBId: 10081,
-                          observerCount: 156,
-                          userANick: "吕布",
-                          userBNick: "BBB糖"),
-                      RoomItemWidget(
-                          rid: 4,
-                          type: 2,
-                          userAId: 10080,
-                          userBId: 10081,
-                          observerCount: 156,
-                          userANick: "Whuo吕布",
-                          userBNick: "BBBBB糖糖"),
-                      RoomItemWidget(
-                          rid: 5,
-                          type: 2,
-                          userAId: 10080,
-                          userBId: 10081,
-                          observerCount: 156,
-                          userANick: "Whuo吕布",
-                          userBNick: "BBBBB糖糖"),
-                    ],
+                          userBNick: "哈哈哈哈哈哈");
+                    }),
                   ),
                 )),
           ),

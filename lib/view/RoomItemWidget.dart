@@ -76,7 +76,7 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
     //加载房间状态
     statusString = type > 0 ? "对局中" : "空闲";
     background = type > 0
-        ? Color.fromARGB(255, 218, 218, 218)
+        ? const Color.fromARGB(255, 218, 218, 218)
         : const Color.fromARGB(255, 255, 255, 255);
   }
 

@@ -18,9 +18,30 @@ class DioUitl {
     return _responseProcessing(r);
   }
 
+  //get请求
+  dynamic get(String path, [Map<String, dynamic>? map]) async {
+    final Response r;
+    if (null != map) {
+      r = await DioHelper.getInstance().getDio().get(path, data: map);
+    } else {
+      r = await DioHelper.getInstance().getDio().get(path);
+    }
+    return _responseProcessing(r);
+  }
+
   //post请求并且结果为200返回数据源data对象
   dynamic postTo200(String path, [Map<String, dynamic>? map]) async {
     final Response r = await post(path, map);
+    if (200 == r.data["code"]) {
+      return r.data["data"];
+    } else {
+      return null;
+    }
+  }
+
+  //get请求并且结果为200返回数据源data对象
+  dynamic getTo200(String path, [Map<String, dynamic>? map]) async {
+    final Response r = await get(path, map);
     if (200 == r.data["code"]) {
       return r.data["data"];
     } else {

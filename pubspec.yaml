@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.0.20
   dio: ^5.1.1
   bot_toast: ^4.0.0
+  web_socket_channel: ^2.4.0
 
 dev_dependencies:
   flutter_test:
