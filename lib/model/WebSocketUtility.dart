@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, file_names
+
 import 'dart:async';
 
 import 'package:web_socket_channel/io.dart';
@@ -17,33 +19,30 @@ class WebSocketUtility {
   /// 单例对象
   static WebSocketUtility? _socket;
 
-  WebSocketUtility._();
-
   /// 内部构造方法，可避免外部暴露构造函数，进行实例化
-  static final WebSocketUtility _instance = WebSocketUtility._();
+  WebSocketUtility._();
 
   /// 获取单例内部方法
   factory WebSocketUtility() {
     // 只能有一个实例
-    if (_socket == null) {
-      _socket = new WebSocketUtility._();
-    }
-    return _socket;
+    _socket ??= WebSocketUtility._();
+    return _socket!;
   }
 
-  IOWebSocketChannel _webSocket; // WebSocket
-  SocketStatus _socketStatus; // socket状态
-  Timer _heartBeat; // 心跳定时器
-  num _heartTimes = 3000; // 心跳间隔(毫秒)
+  IOWebSocketChannel? _webSocket; // WebSocket
+  SocketStatus? _socketStatus; // socket状态
+  Timer? _heartBeat; // 心跳定时器
+  final int _heartTimes = 3000; // 心跳间隔(毫秒)
   num _reconnectCount = 60; // 重连次数，默认60次
   num _reconnectTimes = 0; // 重连计数器
-  Timer _reconnectTimer; // 重连定时器
-  Function onError; // 连接错误回调
-  Function onOpen; // 连接开启回调
-  Function onMessage; // 接收消息回调
+  Timer? _reconnectTimer; // 重连定时器
+  Function? onError; // 连接错误回调
+  Function? onOpen; // 连接开启回调
+  Function? onMessage; // 接收消息回调
 
   /// 初始化WebSocket
-  void initWebSocket({Function onOpen, Function onMessage, Function onError}) {
+  void initWebSocket(
+      {Function? onOpen, Function? onMessage, Function? onError}) {
     this.onOpen = onOpen;
     this.onMessage = onMessage;
     this.onError = onError;
@@ -60,18 +59,18 @@ class WebSocketUtility {
     // 连接成功，重置重连计数器
     _reconnectTimes = 0;
     if (_reconnectTimer != null) {
-      _reconnectTimer.cancel();
+      _reconnectTimer?.cancel();
       _reconnectTimer = null;
     }
-    onOpen();
+    onOpen!();
     // 接收消息
-    _webSocket.stream.listen((data) => webSocketOnMessage(data),
+    _webSocket?.stream.listen((data) => webSocketOnMessage(data),
         onError: webSocketOnError, onDone: webSocketOnDone);
   }
 
   /// WebSocket接收消息回调
   webSocketOnMessage(data) {
-    onMessage(data);
+    onMessage!(data);
   }
 
   /// WebSocket关闭连接回调
@@ -84,15 +83,14 @@ class WebSocketUtility {
   webSocketOnError(e) {
     WebSocketChannelException ex = e;
     _socketStatus = SocketStatus.SocketStatusFailed;
-    onError(ex.message);
+    onError!(ex.message);
     closeSocket();
   }
 
   /// 初始化心跳
   void initHeartBeat() {
     destroyHeartBeat();
-    _heartBeat =
-        new Timer.periodic(Duration(milliseconds: _heartTimes), (timer) {
+    _heartBeat = Timer.periodic(Duration(milliseconds: _heartTimes), (timer) {
       sentHeart();
     });
   }
@@ -105,7 +103,7 @@ class WebSocketUtility {
   /// 销毁心跳
   void destroyHeartBeat() {
     if (_heartBeat != null) {
-      _heartBeat.cancel();
+      _heartBeat?.cancel();
       _heartBeat = null;
     }
   }
@@ -114,7 +112,7 @@ class WebSocketUtility {
   void closeSocket() {
     if (_webSocket != null) {
       print('WebSocket连接关闭');
-      _webSocket.sink.close();
+      _webSocket?.sink.close();
       destroyHeartBeat();
       _socketStatus = SocketStatus.SocketStatusClosed;
     }
@@ -126,7 +124,7 @@ class WebSocketUtility {
       switch (_socketStatus) {
         case SocketStatus.SocketStatusConnected:
           print('发送中：' + message);
-          _webSocket.sink.add(message);
+          _webSocket?.sink.add(message);
           break;
         case SocketStatus.SocketStatusClosed:
           print('连接已关闭');
@@ -151,7 +149,7 @@ class WebSocketUtility {
     } else {
       if (_reconnectTimer != null) {
         print('重连次数超过最大次数');
-        _reconnectTimer.cancel();
+        _reconnectTimer?.cancel();
         _reconnectTimer = null;
       }
       return;
