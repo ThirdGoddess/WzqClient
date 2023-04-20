@@ -5,6 +5,7 @@ import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
 import 'package:apps/uitls/LoadingUitl.dart';
 import 'package:apps/uitls/Sp.dart';
+import 'package:apps/uitls/WebSocketUtility.dart';
 import 'package:apps/view/HomePageRoute.dart';
 import 'package:apps/view/LoginPageRoute.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -73,8 +74,21 @@ class _MyHomePageState extends State<MyHomePage> {
           //保存用户信息
           Sp.getInstance().setUserInfo(data.toString());
 
-          //跳转首页
-          Navigator.push(context, CustomRoute(const HomePageRoute(), 0));
+          //设置Socket Token
+          WebSocketUtility.getInstance().setToken(data["token"].toString());
+
+          print(data["token"].toString());
+
+          //初始化并连接Socket
+          WebSocketUtility.getInstance().initWebSocket(
+              onOpen: () {
+                //跳转首页
+                Navigator.push(context, CustomRoute(const HomePageRoute(), 0));
+              },
+              onError: () {});
+
+          //接收消息
+          // WebSocketUtility.getInstance().addOnMessageCallBack(() {});
         }
       }
     }

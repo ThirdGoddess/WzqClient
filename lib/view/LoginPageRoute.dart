@@ -5,6 +5,7 @@ import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
 import 'package:apps/uitls/LoadingUitl.dart';
 import 'package:apps/uitls/Sp.dart';
+import 'package:apps/uitls/WebSocketUtility.dart';
 import 'package:apps/view/HomePageRoute.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +37,20 @@ class LoginPageRoute extends StatelessWidget {
                 data["token"].toString()); //设置dio header参数token
             Sp.getInstance().setUserToken(data["token"].toString()); //sp存储token
             Sp.getInstance().setUserInfo(data.toString()); //sp存储用户信息
-            BotToast.showText(text: "登录成功");
 
-            //跳转首页
-            Navigator.push(context, CustomRoute(const HomePageRoute(), 0));
+            //设置Socket Token
+            WebSocketUtility.getInstance().setToken(data["token"].toString());
+
+            //连接Socket
+            WebSocketUtility.getInstance().initWebSocket(
+                onOpen: () {
+                  BotToast.showText(text: "登录成功");
+
+                  //跳转首页
+                  Navigator.push(
+                      context, CustomRoute(const HomePageRoute(), 0));
+                },
+                onError: () {});
           }
         } else {
           BotToast.showText(text: "密码不可为空");

@@ -5,6 +5,8 @@ import 'dart:ui';
 import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
 import 'package:apps/uitls/PlatformUtils.dart';
+import 'package:apps/uitls/SocketType.dart';
+import 'package:apps/uitls/WebSocketUtility.dart';
 import 'package:apps/view/RoomItemWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,7 +41,8 @@ class HomePageRoute extends StatelessWidget {
       return ratio > 1.33;
     }
 
-    final List<dynamic> roomList = [];
+    //房间列表
+    List<int> roomList = [15, 16, 17];
 
     //快速开始
     void quickStart() {
@@ -48,11 +51,34 @@ class HomePageRoute extends StatelessWidget {
       // roomList.add()
     }
 
-    void getC() {
-      roomList.add(1);
+    //注册WebSocket
+    void registerSocket() {
+      print("tinajia");
+      // setState(() {});
+      roomList.add(456);
+
+      //更新房间列表
+      // WebSocketUtility.getInstance()
+      //     .addOnMessageCallBack(SocketType.TYPE_ROOM_LIST, (body) {
+      //   print("准备更新UI");
+      //   roomList.add(21);
+      // List<dynamic> data = body["data"];
+      // roomList.addAll(data);
+      // data.forEach((element) {
+      //   roomList.add(const RoomItemWidget(
+      //       rid: 1,
+      //       type: 0,
+      //       userAId: 10080,
+      //       userBId: 10081,
+      //       observerCount: 156,
+      //       userANick: "Whuo吕布1",
+      //       userBNick: "哈哈哈哈哈哈"));
+      // });
+      // });
     }
 
-    getC();
+    roomList.add(12);
+    // registerSocket();
 
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -84,7 +110,7 @@ class HomePageRoute extends StatelessWidget {
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(0)))),
-                          onPressed: quickStart,
+                          onPressed: registerSocket,
                           child: const Text(
                             "快速开始",
                             style: TextStyle(color: Colors.white, fontSize: 18),
@@ -123,22 +149,19 @@ class HomePageRoute extends StatelessWidget {
                 color: const Color.fromARGB(255, 248, 242, 219),
                 height: double.infinity,
                 width: double.infinity,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(20),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.end, //副轴对其方式
-                    children: List.generate(roomList.length, (index) {
-                      return RoomItemWidget(
-                          rid: 1,
-                          type: 0,
-                          userAId: 10080,
-                          userBId: 10081,
-                          observerCount: 156,
-                          userANick: "Whuo吕布1",
-                          userBNick: "哈哈哈哈哈哈");
-                    }),
-                  ),
+                child: Expanded(
+                  child: ListView.builder(
+                      itemCount: roomList.length,
+                      itemBuilder: ((BuildContext context, int index) {
+                        return RoomItemWidget(
+                            rid: roomList[index],
+                            type: 0,
+                            userAId: 10080,
+                            userBId: 10081,
+                            observerCount: 156,
+                            userANick: "dong",
+                            userBNick: "哈哈哈哈哈哈");
+                      })),
                 )),
           ),
           //脚部
