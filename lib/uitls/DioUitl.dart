@@ -86,4 +86,10 @@ class HttpPath {
 
   //Token登录
   static const String loginByTokenPath = "/user/loginByToken";
+
+  //进入首页初始化信息（Socket返回）
+  static const String enterHome = "/im/enterHome";
+
+  //加入房间（占座）
+  static const String enterSeat = "/game/enterSeat";
 }

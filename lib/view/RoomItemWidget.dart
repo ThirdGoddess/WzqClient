@@ -1,86 +1,88 @@
-// ignore_for_file: no_logic_in_create_state, use_key_in_widget_constructors, file_names
+// ignore_for_file: no_logic_in_create_state, use_key_in_widget_constructors, file_names, prefer_interpolation_to_compose_strings
 
+import 'package:apps/uitls/DioUitl.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
 ///房间item组件
 class RoomItemWidget extends StatefulWidget {
-  //房间id
-  final int rid;
-
-  //类型
-  final int type;
-
-  //用户A的id
-  final int userAId;
-
-  //用户B的id
-  final int userBId;
-
-  //观战数量
-  final int observerCount;
-
-  //用户A昵称
-  final String userANick;
-
-  //用户B昵称
-  final String userBNick;
+  final dynamic data;
 
   const RoomItemWidget({
+    @required this.data,
     Key? key,
-    required this.rid,
-    required this.type,
-    required this.userAId,
-    required this.userBId,
-    required this.observerCount,
-    required this.userANick,
-    required this.userBNick,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return RoomItemWidgetState(
-        rid, type, userAId, userBId, observerCount, userANick, userBNick);
+    // String nickA = userNickA ?? "【暂无】";
+    // String nickB = userNickB ?? "【暂无】";
+    return RoomItemWidgetState();
   }
 }
 
 class RoomItemWidgetState extends State<RoomItemWidget> {
-  //房间id
-  final int rid;
-
-  //类型
-  final int type;
-
-  //用户A的id
-  final int userAId;
-
-  //用户B的id
-  final int userBId;
-
-  //观战数量
-  final int observerCount;
-
-  //用户A昵称
-  final String userANick;
-
-  //用户B昵称
-  final String userBNick;
-
-  //房间状态
-  String statusString = "";
+  //加入房间
+  void enterRoom() async {
+    Map<String, dynamic> map = {};
+    map["id"] = getData()["id"];
+    dynamic data = await DioUitl().postTo200(HttpPath.enterSeat, map);
+    if (null != data && 200 == data["code"]) {
+      BotToast.showText(text: "加入成功");
+    }
+  }
 
   //背景色
   Color background = const Color.fromARGB(255, 255, 255, 255);
 
-  RoomItemWidgetState(this.rid, this.type, this.userAId, this.userBId,
-      this.observerCount, this.userANick, this.userBNick) {
-    //加载房间状态
-    statusString = type > 0 ? "对局中" : "空闲";
-    background = type > 0
-        ? const Color.fromARGB(255, 218, 218, 218)
-        : const Color.fromARGB(255, 255, 255, 255);
+  //获取data
+  dynamic getData() {
+    return widget.data;
   }
 
-  void enterRoom() {}
+  //获取名字
+  //type:1=A；2=B
+  String getNick(int type) {
+    if (1 == type) {
+      if (null == getData()["userNickA"]) {
+        return "[暂无]";
+      } else {
+        return "【" + getData()["userNickA"] + "】";
+      }
+    }
+
+    if (2 == type) {
+      if (null == getData()["userNickB"]) {
+        return "[暂无]";
+      } else {
+        return "【" + getData()["userNickB"] + "】";
+      }
+    }
+
+    return "[未知]";
+  }
+
+  //获取名字字体颜色
+  //type:1=A；2=B
+  Color getNickColor(int type) {
+    if (1 == type) {
+      if (null == getData()["userNickA"]) {
+        return const Color.fromARGB(255, 190, 190, 190);
+      } else {
+        return const Color.fromARGB(255, 8, 0, 255);
+      }
+    }
+
+    if (2 == type) {
+      if (null == getData()["userNickB"]) {
+        return const Color.fromARGB(255, 190, 190, 190);
+      } else {
+        return const Color.fromARGB(255, 8, 0, 255);
+      }
+    }
+
+    return const Color.fromARGB(255, 190, 190, 190);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,21 +95,19 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
           borderRadius: BorderRadius.circular(5),
         ),
         padding: const EdgeInsets.all(5),
-        width: 210,
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           child: Column(
             children: [
               Row(children: [
-                Container(
-                  child: Text(
-                    "$rid号桌",
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                Text(
+                  "${widget.data["id"]}号桌",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 8),
-                  child: Text("$statusString-观战$observerCount"),
+                  child: Text(
+                      "${widget.data["type"] > 0 ? "对局中" : "空闲中"}-观战${widget.data["observerCount"]}"),
                 )
               ]),
               Container(
@@ -115,7 +115,7 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
                 height: 1,
                 color: const Color.fromARGB(255, 232, 232, 232),
               ),
-              Container(
+              const SizedBox(
                 width: double.infinity,
                 height: 5,
               ),
@@ -131,7 +131,10 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
                     children: [
                       SizedBox(
                         width: double.infinity,
-                        child: Text("棋手1：$userANick"),
+                        child: Text(
+                          "棋手1：${getNick(1)}",
+                          style: TextStyle(color: getNickColor(1)),
+                        ),
                       ),
                       const SizedBox(
                         width: double.infinity,
@@ -139,7 +142,10 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: Text("棋手2：$userBNick"),
+                        child: Text(
+                          "棋手2：${getNick(2)}",
+                          style: TextStyle(color: getNickColor(2)),
+                        ),
                       )
                     ],
                   ))
@@ -151,29 +157,28 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
               ),
               Row(
                 children: [
-                  Offstage(
-                    offstage: type > 1 ? true : false,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 5),
-                      width: 95,
-                      height: 35,
-                      child: TextButton(
-                          style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
-                                  Color.fromARGB(255, 240, 187, 29))),
-                          onPressed: enterRoom,
-                          child: const Text(
-                            "加入对局",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 14),
-                          )),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 5),
-                    width: 95,
+                  Flexible(
+                      child: Container(
+                    width: double.infinity,
                     height: 35,
+                    margin: const EdgeInsets.only(right: 5),
+                    child: TextButton(
+                        style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(255, 240, 187, 29))),
+                        onPressed: enterRoom,
+                        child: const Text(
+                          "加入对局",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14),
+                        )),
+                  )),
+                  Flexible(
+                      child: Container(
+                    margin: const EdgeInsets.only(left: 5),
+                    height: 35,
+                    width: double.infinity,
                     child: TextButton(
                         style: const ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(
@@ -185,7 +190,7 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 14),
                         )),
-                  ),
+                  )),
                 ],
               )
             ],

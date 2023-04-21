@@ -15,12 +15,12 @@ enum SocketStatus {
   SocketStatusClosed, // 连接关闭
 }
 
-class WebSocketUtility {
+class WsHelper {
   /// 内部构造方法，可避免外部暴露构造函数，进行实例化
-  WebSocketUtility._();
+  WsHelper._();
 
   /// 单例对象
-  static final WebSocketUtility _socket = WebSocketUtility._();
+  static final WsHelper _socket = WsHelper._();
 
   /// 获取单例内部方法
   // factory WebSocketUtility() {
@@ -52,12 +52,12 @@ class WebSocketUtility {
     openSocket();
   }
 
-  static WebSocketUtility getInstance() {
+  static WsHelper getInstance() {
     return _socket;
   }
 
   //添加消息回调监听
-  void addOnMessageCallBack(int type, Function onMessage) {
+  void addMsgCallBack(int type, Function onMessage) {
     // _observerList.add(onMessage);
     typeFunList[type] = onMessage;
   }
@@ -75,7 +75,7 @@ class WebSocketUtility {
       _reconnectTimer!.cancel();
       _reconnectTimer = null;
     }
-    onOpen!();
+
     // 接收消息
     _webSocket?.stream.listen((data) => webSocketOnMessage(data),
         onError: webSocketOnError, onDone: webSocketOnDone);
@@ -87,8 +87,12 @@ class WebSocketUtility {
 
   /// WebSocket接收消息回调
   webSocketOnMessage(json) {
+    print("收到消息：" + json);
+
     Map<String, dynamic> data = jsonDecode(json);
-    if (21 == data["status"]) {
+    if (20 == data["status"]) {
+      onOpen!();
+    } else if (21 == data["status"]) {
       dynamic body = data["body"];
       var typeFunLists = typeFunList[body["type"]];
       if (null != typeFunLists) {

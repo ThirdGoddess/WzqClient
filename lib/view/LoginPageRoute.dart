@@ -5,7 +5,7 @@ import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
 import 'package:apps/uitls/LoadingUitl.dart';
 import 'package:apps/uitls/Sp.dart';
-import 'package:apps/uitls/WebSocketUtility.dart';
+import 'package:apps/uitls/WsHelper.dart';
 import 'package:apps/view/HomePageRoute.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -39,10 +39,10 @@ class LoginPageRoute extends StatelessWidget {
             Sp.getInstance().setUserInfo(data.toString()); //sp存储用户信息
 
             //设置Socket Token
-            WebSocketUtility.getInstance().setToken(data["token"].toString());
+            WsHelper.getInstance().setToken(data["token"].toString());
 
             //连接Socket
-            WebSocketUtility.getInstance().initWebSocket(
+            WsHelper.getInstance().initWebSocket(
                 onOpen: () {
                   BotToast.showText(text: "登录成功");
 

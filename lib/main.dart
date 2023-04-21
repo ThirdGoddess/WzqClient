@@ -1,11 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, no_logic_in_create_state
 
 import 'package:apps/uitls/CustomRoute.dart';
 import 'package:apps/uitls/DioHelper.dart';
 import 'package:apps/uitls/DioUitl.dart';
 import 'package:apps/uitls/LoadingUitl.dart';
 import 'package:apps/uitls/Sp.dart';
-import 'package:apps/uitls/WebSocketUtility.dart';
+import 'package:apps/uitls/WsHelper.dart';
 import 'package:apps/view/HomePageRoute.dart';
 import 'package:apps/view/LoginPageRoute.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -46,15 +46,22 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<StatefulWidget> createState() {
+    dynamic state = _MyHomePageState();
+
+    //默认调用Token登录
+    state.loginByToken();
+
+    return state;
+  }
 }
 
 ///启动页
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    //使用Token登录
-    loginByToken(dynamic token) async {
+  //使用Token登录
+  loginByToken() async {
+    Future future = Sp.getInstance().getUserToken();
+    future.then((token) async {
       if (token.isNotEmpty) {
         LoadingUitl.showLoading();
         //设置DIO Header Token
@@ -75,12 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
           Sp.getInstance().setUserInfo(data.toString());
 
           //设置Socket Token
-          WebSocketUtility.getInstance().setToken(data["token"].toString());
+          WsHelper.getInstance().setToken(data["token"].toString());
 
           print(data["token"].toString());
 
           //初始化并连接Socket
-          WebSocketUtility.getInstance().initWebSocket(
+          WsHelper.getInstance().initWebSocket(
               onOpen: () {
                 //跳转首页
                 Navigator.push(context, CustomRoute(const HomePageRoute(), 0));
@@ -91,13 +98,13 @@ class _MyHomePageState extends State<MyHomePage> {
           // WebSocketUtility.getInstance().addOnMessageCallBack(() {});
         }
       }
-    }
+    });
+  }
 
-    Future future = Sp.getInstance().getUserToken();
-    future.then((value) => loginByToken(value));
-
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Center(
           child: Column(children: [
         Container(
