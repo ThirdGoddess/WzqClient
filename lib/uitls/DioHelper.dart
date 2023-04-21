@@ -61,7 +61,7 @@ class DioHelper {
       //错误请求
       onError: (DioError e, ErrorInterceptorHandler handler) {
         LoadingUitl.closeAllLoading();
-        BotToast.showText(text: "连接服务器失败");
+        BotToast.showText(text: "连接服务器失败" + e.toString());
         return handler.next(e);
       },
     ));
