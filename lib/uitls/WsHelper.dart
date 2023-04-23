@@ -29,7 +29,7 @@ class WsHelper {
   //   return _socket!;
   // }
 
-  IOWebSocketChannel? _webSocket; // WebSocket
+  WebSocketChannel? _webSocket; // WebSocket
   SocketStatus _socketStatus = SocketStatus.SocketStatusClosed; // socket状态
   Timer? _heartBeat; // 心跳定时器
   final int _heartTimes = 3000; // 心跳间隔(毫秒)
@@ -65,7 +65,8 @@ class WsHelper {
   /// 开启WebSocket连接
   void openSocket() {
     closeSocket();
-    _webSocket = IOWebSocketChannel.connect(_SOCKET_URL + _token);
+    print('申请连接Socket------');
+    _webSocket = WebSocketChannel.connect(Uri.parse(_SOCKET_URL + _token));
     print('WebSocket连接成功: $_SOCKET_URL');
     // 连接成功，返回WebSocket实例
     _socketStatus = SocketStatus.SocketStatusConnected;

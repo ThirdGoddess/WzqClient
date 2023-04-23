@@ -15,8 +15,6 @@ class RoomItemWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // String nickA = userNickA ?? "【暂无】";
-    // String nickB = userNickB ?? "【暂无】";
     return RoomItemWidgetState();
   }
 }
@@ -29,6 +27,7 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
     dynamic data = await DioUitl().postTo200(HttpPath.enterSeat, map);
     if (null != data && 200 == data["code"]) {
       BotToast.showText(text: "加入成功");
+
     }
   }
 
