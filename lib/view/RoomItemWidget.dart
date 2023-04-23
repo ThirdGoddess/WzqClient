@@ -1,8 +1,11 @@
-// ignore_for_file: no_logic_in_create_state, use_key_in_widget_constructors, file_names, prefer_interpolation_to_compose_strings
+// ignore_for_file: no_logic_in_create_state, use_key_in_widget_constructors, file_names, prefer_interpolation_to_compose_strings, use_build_context_synchronously
 
 import 'package:apps/uitls/DioUitl.dart';
+import 'package:apps/view/BattlefieldPage.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+
+import '../uitls/CustomRoute.dart';
 
 ///房间item组件
 class RoomItemWidget extends StatefulWidget {
@@ -24,10 +27,11 @@ class RoomItemWidgetState extends State<RoomItemWidget> {
   void enterRoom() async {
     Map<String, dynamic> map = {};
     map["id"] = getData()["id"];
-    dynamic data = await DioUitl().postTo200(HttpPath.enterSeat, map);
-    if (null != data && 200 == data["code"]) {
+    dynamic response  = await DioUitl().postTo200(HttpPath.enterSeat, map);
+    if (200 == response["code"]) {
       BotToast.showText(text: "加入成功");
-
+      //跳转对局页面
+      Navigator.push(context, CustomRoute(const BattlefieldPage(), 0));
     }
   }
 

@@ -33,7 +33,7 @@ class DioUitl {
   dynamic postTo200(String path, [Map<String, dynamic>? map]) async {
     final Response r = await post(path, map);
     if (200 == r.data["code"]) {
-      return r.data["data"];
+      return r.data;
     } else {
       return null;
     }

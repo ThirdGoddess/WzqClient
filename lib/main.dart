@@ -69,7 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
             .setHeader(DioHelper.HeaderUserToken, token.toString());
 
         //发起Token登录请求
-        dynamic data = await DioUitl().postTo200(HttpPath.loginByTokenPath);
+        dynamic response = await DioUitl().postTo200(HttpPath.loginByTokenPath);
+        dynamic data = response["data"];
         if (null != data) {
           //更新本地存储的Token
           Sp.getInstance().setUserToken(data["token"]);

@@ -31,7 +31,9 @@ class LoginPageRoute extends StatelessWidget {
             "password": passwordInput.text
           };
           LoadingUitl.showLoading();
-          dynamic data = await DioUitl().postTo200(HttpPath.loginPath, param);
+          dynamic response =
+              await DioUitl().postTo200(HttpPath.loginPath, param);
+          dynamic data = response["data"];
           if (null != data) {
             DioHelper.getInstance().setHeader(DioHelper.HeaderUserToken,
                 data["token"].toString()); //设置dio header参数token
